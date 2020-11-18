@@ -324,6 +324,15 @@ module.exports = async (env, argv) => {
             next();
           }
         });
+      },
+      proxy: {
+        '/yelp_graphql': {
+          target: {
+            host: "localhost",
+            protocol: "http",
+            port: "8083"
+          }
+        }
       }
     },
     performance: {

@@ -118,6 +118,8 @@ import "./components/optional-alternative-to-not-hide";
 import "./components/set-max-resolution";
 import "./components/avatar-audio-source";
 import "./components/avatar-inspect-collider";
+import "./components/yelp-map";
+import "./components/yelp-search";
 import { sets as userinputSets } from "./systems/userinput/sets";
 
 import ReactDOM from "react-dom";
@@ -775,6 +777,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     const physicsSystem = scene.systems["hubs-systems"].physicsSystem;
     physicsSystem.setDebug(isDebug || physicsSystem.debug);
     patchThreeAllocations();
+
+
+    const yelpMapEl = document.querySelector('#yelp-map');
+  
+    // Listen for search response to update the map with search results
+    const searchEl = document.querySelector('#yelp-search');
+    searchEl.addEventListener("yelp-search-response", (evt) => {
+      const searchResponse = evt.detail;
+      const businessList = searchResponse.businessList;
+      yelpMapEl.components.yelpmap.setSearchResults(businessList);
+
+    });
+
+    // Listen for searches from the search input panel
+    // const searchInputEl = document.querySelector('#search-input');
+    // searchInputEl.addEventListener("yelp-search", (evt) => {
+    //   console.log("doing search!!");
+
+    //   const findDesc = evt.detail.findDesc;
+    //   const findLoc = evt.detail.findLoc;
+    //   searchEl.components.yelpsearch.doSearch(findDesc, findLoc);
+
+    // } );
+
+
+    searchEl.components.yelpsearch.doSearch("tacos", "San Francisco, CA");
+
   };
 
   if (scene.hasLoaded) {
