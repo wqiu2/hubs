@@ -806,7 +806,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     searchEl.components.yelpsearch.doSearch("tacos", "San Francisco, CA");
-    scene.addEventListener("yelpboardButtonPressed", remountUI({ showSignInDialog: false }));
+    scene.addEventListener("yelpboardButtonPressed", remountUI);
 
   };
 
