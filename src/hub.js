@@ -280,7 +280,7 @@ function mountUI(props = {}) {
     (scene.systems.userinput.activeSets.includes(userinputSets.rightCursorHoldingPen) ||
       scene.systems.userinput.activeSets.includes(userinputSets.leftCursorHoldingPen));
   const yelpMapEl = document.querySelector('#yelp-map');
-  const isYelpboardActive = scene && yelpMapEl.object3D.visible;
+  const isYelpboardActive = !yelpMapEl.object3D.visible;// happen before yelpboard is set to visible/invisible so should make it opposite?
   const hasActiveCamera = scene && !!scene.systems["camera-tools"].getMyCamera();
   const forcedVREntryType = qsVREntryType;
 
