@@ -15,6 +15,8 @@ import ShareCameraIconActive from "../assets/images/share_camera_active.svgi";
 import ShareCameraIcon from "../assets/images/share_camera.svgi";
 import PenIcon from "../assets/images/pen.svgi";
 import PenIconActive from "../assets/images/pen_active.svgi";
+import YelpboardActive from "../assets/images/yelp_on.svg";
+import Yelpboard from "../assets/images/yelp_off.svg";
 import CameraIcon from "../assets/images/camera.svgi";
 import CameraIconActive from "../assets/images/camera_active.svgi";
 import Mic0 from "../assets/images/mic-0.svgi";
@@ -48,6 +50,7 @@ class TopHUD extends Component {
     scene: PropTypes.object,
     muted: PropTypes.bool,
     isCursorHoldingPen: PropTypes.bool,
+    isYelpboardActive : PropTypes.bool,
     hasActiveCamera: PropTypes.bool,
     frozen: PropTypes.bool,
     watching: PropTypes.bool,
@@ -59,6 +62,7 @@ class TopHUD extends Component {
     history: PropTypes.object,
     onToggleMute: PropTypes.func,
     onSpawnPen: PropTypes.func,
+    onSpawnYelpboard: PropTypes.func,
     onSpawnCamera: PropTypes.func,
     onShareVideo: PropTypes.func,
     onEndShareVideo: PropTypes.func,
@@ -75,6 +79,7 @@ class TopHUD extends Component {
     micLevel: 0,
     cameraDisabled: false,
     penDisabled: false,
+    yelpboardDisabled: false,
     mediaDisabled: false
   };
 
@@ -83,12 +88,14 @@ class TopHUD extends Component {
     this.state.cameraDisabled = !window.APP.hubChannel.can("spawn_camera");
     this.state.penDisabled = !window.APP.hubChannel.can("spawn_drawing");
     this.state.mediaDisabled = !window.APP.hubChannel.can("spawn_and_move_media");
+    // this.state.yelpboardDisabled = !window.APP.hubChannel.can("spawn_yelpboard");
   }
 
   onPermissionsUpdated = () => {
     this.setState({
       cameraDisabled: !window.APP.hubChannel.can("spawn_camera"),
       penDisabled: !window.APP.hubChannel.can("spawn_drawing"),
+      // yelpboardDisabled: !window.APP.hubChannel.can("spawn_yelpboard"),
       mediaDisabled: !window.APP.hubChannel.can("spawn_and_move_media")
     });
   };
@@ -322,6 +329,19 @@ class TopHUD extends Component {
               <InlineSVG
                 className={cx(styles.iconButtonIcon)}
                 src={this.props.hasActiveCamera ? CameraIconActive : CameraIcon}
+              />
+            </div>
+            <div
+              className={cx(styles.iconButton, {
+                [styles.disabled]: this.state.yelpboardDisabled
+              })}
+              title={`Yelpboard${this.state.yelpboardDisabled ? " Disabled" : ""}`}
+              role="button"
+              onClick={this.state.yelpboardDisabled ? noop : this.props.onSpawnYelpboard}
+            >
+              <img
+                className={cx(styles.iconButtonIcon)}
+                src={this.props.isYelpboardActive ? YelpboardActive : Yelpboard}
               />
             </div>
           </div>

@@ -279,6 +279,8 @@ function mountUI(props = {}) {
     scene &&
     (scene.systems.userinput.activeSets.includes(userinputSets.rightCursorHoldingPen) ||
       scene.systems.userinput.activeSets.includes(userinputSets.leftCursorHoldingPen));
+  const yelpMapEl = document.querySelector('#yelp-map');
+  const isYelpboardActive = scene && yelpMapEl.object3D.visible;
   const hasActiveCamera = scene && !!scene.systems["camera-tools"].getMyCamera();
   const forcedVREntryType = qsVREntryType;
 
@@ -295,6 +297,7 @@ function mountUI(props = {}) {
               store,
               mediaSearchStore,
               isCursorHoldingPen,
+              isYelpboardActive,
               hasActiveCamera,
               ...props,
               ...routeProps

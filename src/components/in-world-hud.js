@@ -10,6 +10,7 @@ AFRAME.registerComponent("in-world-hud", {
     this.spawn = this.el.querySelector(".spawn");
     this.pen = this.el.querySelector(".penhud");
     this.cameraBtn = this.el.querySelector(".camera-btn");
+    this.yelpboardBtn = this.el.querySelector(".yelpboard-btn");
     this.inviteBtn = this.el.querySelector(".invite-btn");
     this.background = this.el.querySelector(".bg");
 
@@ -17,15 +18,17 @@ AFRAME.registerComponent("in-world-hud", {
       this.mic.setAttribute("mic-button", "active", this.el.sceneEl.is("muted"));
       this.pen.setAttribute("icon-button", "active", this.el.sceneEl.is("pen"));
       this.cameraBtn.setAttribute("icon-button", "active", this.el.sceneEl.is("camera"));
+      this.yelpboardBtn.setAttribute("icon-button", "active", true);
       if (window.APP.hubChannel) {
         this.spawn.setAttribute("icon-button", "disabled", !window.APP.hubChannel.can("spawn_and_move_media"));
         this.pen.setAttribute("icon-button", "disabled", !window.APP.hubChannel.can("spawn_drawing"));
         this.cameraBtn.setAttribute("icon-button", "disabled", !window.APP.hubChannel.can("spawn_camera"));
+        this.yelpboardBtn.setAttribute("icon-button", "disabled", false);
       }
     };
 
     this.onStateChange = evt => {
-      if (!(evt.detail === "muted" || evt.detail === "frozen" || evt.detail === "pen" || evt.detail === "camera"))
+      if (!(evt.detail === "muted" || evt.detail === "frozen" || evt.detail === "pen" || evt.detail === "camera" || evt.detail === "yelpboard"))
         return;
       this.updateButtonStates();
     };
@@ -50,6 +53,10 @@ AFRAME.registerComponent("in-world-hud", {
       this.el.emit("action_toggle_camera");
     };
 
+    this.onYelpboardClick = () => {
+      console.log('3d spawn yelpboard clicked')
+    };
+
     this.onInviteClick = () => {
       this.el.emit("action_invite");
     };
@@ -70,6 +77,7 @@ AFRAME.registerComponent("in-world-hud", {
     this.spawn.object3D.addEventListener("interact", this.onSpawnClick);
     this.pen.object3D.addEventListener("interact", this.onPenClick);
     this.cameraBtn.object3D.addEventListener("interact", this.onCameraClick);
+    this.yelpboardBtn.object3D.addEventListener("interact", this.onYelpboardClick);
     this.inviteBtn.object3D.addEventListener("interact", this.onInviteClick);
   },
 

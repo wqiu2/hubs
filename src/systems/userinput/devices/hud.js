@@ -4,6 +4,7 @@ export class HudDevice {
   constructor() {
     this.events = [];
     document.querySelector("a-scene").addEventListener("penButtonPressed", this.events.push.bind(this.events));
+    document.querySelector("a-scene").addEventListener("yelpboardButtonPressed", this.events.push.bind(this.events));
   }
 
   write(frame) {

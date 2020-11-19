@@ -151,6 +151,7 @@ class UIRoot extends Component {
     onCloseOAuthDialog: PropTypes.func,
     oauthInfo: PropTypes.array,
     isCursorHoldingPen: PropTypes.bool,
+    isYelpboardActive: PropTypes.bool,
     hasActiveCamera: PropTypes.bool,
     onMediaSearchResultEntrySelected: PropTypes.func,
     onAvatarSaved: PropTypes.func,
@@ -485,6 +486,15 @@ class UIRoot extends Component {
   spawnPen = () => {
     this.props.scene.emit("penButtonPressed");
   };
+
+  spawnYelpboard = () => {
+    this.props.scene.emit("yelpboardButtonPressed");
+    console.log('Spawn yelpboard!');
+    const yelpMapEl = document.querySelector('#yelp-map');
+    const searchEl = document.querySelector('#yelp-search');
+    yelpMapEl.object3D.visible=!yelpMapEl.object3D.visible;
+    searchEl.object3D.visible=!searchEl.object3D.visible;
+  }
 
   onSubscribeChanged = async () => {
     if (!this.props.subscriptions) return;
@@ -2109,9 +2119,11 @@ class UIRoot extends Component {
                   hideVideoShareFailedTip={() => this.setState({ showVideoShareFailed: false })}
                   activeTip={this.props.activeTips && this.props.activeTips.top}
                   isCursorHoldingPen={this.props.isCursorHoldingPen}
+                  isYelpboardActive={this.props.isYelpboardActive}
                   hasActiveCamera={this.props.hasActiveCamera}
                   onToggleMute={this.toggleMute}
                   onSpawnPen={this.spawnPen}
+                  onSpawnYelpboard={this.spawnYelpboard}
                   onSpawnCamera={() => this.props.scene.emit("action_toggle_camera")}
                   onShareVideo={this.shareVideo}
                   onEndShareVideo={this.endShareVideo}
